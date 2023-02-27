@@ -186,9 +186,9 @@ pub const Blob = struct {
         var blob: Blob = undefined;
         const result = c.sqlite3_blob_open(
             db,
-            db_name.toString(),
-            table,
-            column,
+            db_name.toString().ptr,
+            table.ptr,
+            column.ptr,
             row,
             open_flags,
             @ptrCast([*c]?*c.sqlite3_blob, &blob.handle),
@@ -660,7 +660,7 @@ pub const Db = struct {
 
         const result = c.sqlite3_create_function_v2(
             self.db,
-            name,
+            name.ptr,
             real_args_len,
             flags,
             user_ctx,
@@ -737,7 +737,7 @@ pub const Db = struct {
 
         const result = c.sqlite3_create_function_v2(
             self.db,
-            func_name,
+            func_name.ptr,
             fn_info.args.len,
             flags,
             null,
@@ -803,7 +803,7 @@ pub const Db = struct {
 
         const result = c.sqlite3_create_module_v2(
             self.db,
-            name,
+            name.ptr,
             &VirtualTableType.module,
             module_context,
             null,
